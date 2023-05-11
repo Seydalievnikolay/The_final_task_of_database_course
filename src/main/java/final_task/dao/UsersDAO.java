@@ -9,7 +9,7 @@ public interface UsersDAO {
     Users add (Users users);
 
     //read
-    List<Users> getAll(int id);
+    List<Users> getAll();
     Users getById(int id);
     //update
     Users update (Users users, int id);

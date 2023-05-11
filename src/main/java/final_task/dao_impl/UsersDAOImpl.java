@@ -1,5 +1,6 @@
 package final_task.dao_impl;
 
+import final_task.application.Roles;
 import final_task.application.Users;
 import final_task.dao.UsersDAO;
 import org.hibernate.Session;
@@ -16,6 +17,8 @@ public class UsersDAOImpl implements UsersDAO {
     private  final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .configure("hibernate.cfg.xml").build();
     private  final SessionFactory sessionFactory = new MetadataSources(registry)
+            .addAnnotatedClass(Roles.class)
+            .addAnnotatedClass(Users.class)
             .buildMetadata().buildSessionFactory();
     @Override
     public Users add(Users users) {
@@ -25,6 +28,7 @@ public class UsersDAOImpl implements UsersDAO {
             session.save(users);
             session.getTransaction().commit();
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
         }finally {
             session.close();
@@ -33,7 +37,7 @@ public class UsersDAOImpl implements UsersDAO {
     }
 
     @Override
-    public List<Users> getAll(int id) {
+    public List<Users> getAll() {
         Session session = sessionFactory.openSession();
         List<Users> users = new ArrayList<>();
         try {
@@ -41,6 +45,7 @@ public class UsersDAOImpl implements UsersDAO {
             users = session.createQuery("FROM Users ", Users.class).list();
             session.getTransaction().commit();
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
             session.close();
@@ -60,6 +65,7 @@ public class UsersDAOImpl implements UsersDAO {
             session.getTransaction().commit();
             users = query.uniqueResult();
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
             session.close();
@@ -86,6 +92,7 @@ public class UsersDAOImpl implements UsersDAO {
             session.getTransaction().commit();
             usersResult = query;
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
         }finally {
             session.close();
@@ -103,6 +110,7 @@ public class UsersDAOImpl implements UsersDAO {
                     .setParameter("fId", users.getId())
                     .executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
             session.close();

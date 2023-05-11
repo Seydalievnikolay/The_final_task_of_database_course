@@ -1,6 +1,7 @@
 package final_task.dao_impl;
 
 import final_task.application.Roles;
+import final_task.application.Users;
 import final_task.dao.RolesDAO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +17,8 @@ public class RolesDAOImpl implements RolesDAO {
     private  final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .configure("hibernate.cfg.xml").build();
     private  final SessionFactory sessionFactory = new MetadataSources(registry)
+            .addAnnotatedClass(Roles.class)
+            .addAnnotatedClass(Users.class)
             .buildMetadata().buildSessionFactory();
     @Override
     public Roles add(Roles roles) {
@@ -25,6 +28,7 @@ public class RolesDAOImpl implements RolesDAO {
             session.save(roles);
             session.getTransaction().commit();
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
         }finally {
             session.close();
@@ -41,6 +45,7 @@ public class RolesDAOImpl implements RolesDAO {
             roles = session.createQuery("FROM Roles ", Roles.class).list();
             session.getTransaction();
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
             session.close();
@@ -60,6 +65,7 @@ public class RolesDAOImpl implements RolesDAO {
             session.getTransaction().commit();
             roles = query.uniqueResult();
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
             session.close();
@@ -80,6 +86,7 @@ public class RolesDAOImpl implements RolesDAO {
             session.getTransaction().commit();
             rolesResult = query;
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
             session.close();
@@ -96,6 +103,7 @@ public class RolesDAOImpl implements RolesDAO {
                     .setParameter("fId", roles.getId())
                     .executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
         } finally {
             session.close();
