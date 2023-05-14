@@ -18,6 +18,5 @@ public class Roles {
     private int id;
     @Column(name = "name_role")
     private String rolesName;
-    @OneToMany(mappedBy = "roles",cascade = CascadeType.ALL)
-    private List<Users> users;
+
 }

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -20,10 +22,13 @@ public class Users {
     private String login;
     private String pass;
     @Column(name = "date_and_time_of_profile_creation")
-    private int dateAndTimeOfProfileCreation;
+    private LocalDateTime dateAndTimeOfProfileCreation = LocalDateTime.now();
     @Column(name = "date_and_time_of_profile_modification")
-    private int dateAndTimeOfProfileModification;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "available_roles_id")
-    private Roles roles;
+    private LocalDateTime dateAndTimeOfProfileModification = LocalDateTime.now();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_role",
+    joinColumns = {@JoinColumn (name = "user_id")},
+    inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private List<Roles> roles;
 }

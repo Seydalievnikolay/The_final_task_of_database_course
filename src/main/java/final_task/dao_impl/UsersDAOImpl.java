@@ -74,6 +74,29 @@ public class UsersDAOImpl implements UsersDAO {
     }
 
     @Override
+    public List<Users> getUsersOfRole(Roles roles) {
+        Session session = sessionFactory.openSession();
+        List<Users> users = new ArrayList<>();
+        List<Users> usersRole = new ArrayList<>();
+        try {
+            session.beginTransaction();
+            users = session.createQuery("FROM Users ", Users.class).list();
+            for (Users users1 : users) {
+                if (users1.getRoles().equals(roles)) {
+                    usersRole.add(users1);
+                }
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
+        return usersRole;
+    }
+
+    @Override
     public Users update(Users users, int id) {
         Session session = sessionFactory.openSession();
         Users usersResult = null;
