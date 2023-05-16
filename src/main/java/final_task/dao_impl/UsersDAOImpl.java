@@ -82,7 +82,7 @@ public class UsersDAOImpl implements UsersDAO {
             session.beginTransaction();
             users = session.createQuery("FROM Users ", Users.class).list();
             for (Users users1 : users) {
-                if (users1.getRoles().equals(roles)) {
+                if (users1.getRoles().contains(roles)) {
                     usersRole.add(users1);
                 }
             }
@@ -97,30 +97,27 @@ public class UsersDAOImpl implements UsersDAO {
     }
 
     @Override
-    public Users update(Users users, int id) {
+    public void update(Users users) {
         Session session = sessionFactory.openSession();
-        Users usersResult = null;
         try {
             session.beginTransaction();
-            Users query = session.createQuery(
+            session.createQuery(
                             "UPDATE Users SET userName = :fUserName, login = :fLogin, pass = :fPass," +
                                     "dateAndTimeOfProfileCreation = :fDateAndTimeOfProfileCreation," +
-                                    "dateAndTimeOfProfileModification = :fDateAndTimeOfProfileModification WHERE id = :fId", Users.class)
+                                    "dateAndTimeOfProfileModification = :fDateAndTimeOfProfileModification WHERE id = :fId")
                     .setParameter("fUserName", users.getUserName())
                     .setParameter("fLogin", users.getLogin())
                     .setParameter("fPass", users.getPass())
                     .setParameter("fDateAndTimeOfProfileCreation", users.getDateAndTimeOfProfileCreation())
                     .setParameter("fDateAndTimeOfProfileModification", users.getDateAndTimeOfProfileModification())
-                    .uniqueResult();
+                    .executeUpdate();
             session.getTransaction().commit();
-            usersResult = query;
         } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         }finally {
             session.close();
         }
-        return usersResult;
     }
 
     @Override

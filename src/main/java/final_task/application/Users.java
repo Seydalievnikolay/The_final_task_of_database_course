@@ -1,17 +1,19 @@
 package final_task.application;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@Builder
+@EqualsAndHashCode(of = "id")
 @Table(name = "users")
 public class Users {
     @Id
@@ -22,13 +24,13 @@ public class Users {
     private String login;
     private String pass;
     @Column(name = "date_and_time_of_profile_creation")
-    private LocalDateTime dateAndTimeOfProfileCreation = LocalDateTime.now();
+    private LocalDateTime dateAndTimeOfProfileCreation;
     @Column(name = "date_and_time_of_profile_modification")
-    private LocalDateTime dateAndTimeOfProfileModification = LocalDateTime.now();
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
+    private LocalDateTime dateAndTimeOfProfileModification;
+    @ManyToMany(fetch = FetchType.EAGER)
+    /*@JoinTable(
             name = "users_role",
     joinColumns = {@JoinColumn (name = "user_id")},
-    inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private List<Roles> roles;
+    inverseJoinColumns = {@JoinColumn(name = "role_id")})*/
+    private List<Roles> roles = new ArrayList<>();
 }

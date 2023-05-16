@@ -15,7 +15,7 @@ public interface UsersDAO {
 
     List<Users> getUsersOfRole(Roles roles);
     //update
-    Users update (Users users, int id);
+    void update (Users users);
     //delete
     void remove (Users users);
 }

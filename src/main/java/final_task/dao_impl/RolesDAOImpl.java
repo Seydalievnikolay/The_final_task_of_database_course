@@ -80,8 +80,8 @@ public class RolesDAOImpl implements RolesDAO {
         try {
             session.beginTransaction();
             Roles query = session.createQuery(
-                            "UPDATE Roles SET rolesName = :fRolesName WHERE id = :fId", Roles.class)
-                    .setParameter("fRolesName", roles.getRolesName())
+                            "UPDATE Roles SET type = :fRolesName WHERE id = :fId", Roles.class)
+                    .setParameter("fRolesName", roles.getType())
                     .uniqueResult();
             session.getTransaction().commit();
             rolesResult = query;
