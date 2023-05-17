@@ -25,7 +25,7 @@ public class UsersDAOImpl implements UsersDAO {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            session.save(users);
+            session.persist(users);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,6 +110,7 @@ public class UsersDAOImpl implements UsersDAO {
                     .setParameter("fPass", users.getPass())
                     .setParameter("fDateAndTimeOfProfileCreation", users.getDateAndTimeOfProfileCreation())
                     .setParameter("fDateAndTimeOfProfileModification", users.getDateAndTimeOfProfileModification())
+                    .setParameter("fId",users.getId())
                     .executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
